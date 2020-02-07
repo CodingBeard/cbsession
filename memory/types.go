@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fasthttp/session"
+	"github.com/codingbeard/session"
 )
 
 // Config session memory configuration

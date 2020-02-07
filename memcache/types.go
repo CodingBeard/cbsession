@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/bradfitz/gomemcache/memcache"
-	"github.com/fasthttp/session"
+	"github.com/codingbeard/session"
 )
 
 // Config session memcache configuration

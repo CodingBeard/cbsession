@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/bradfitz/gomemcache/memcache"
-	"github.com/fasthttp/session"
+	"github.com/codingbeard/session"
 	"github.com/valyala/bytebufferpool"
 )
 

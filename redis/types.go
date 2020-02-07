@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fasthttp/session"
+	"github.com/codingbeard/session"
 	"github.com/go-redis/redis"
 )
 

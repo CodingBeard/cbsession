@@ -1,9 +1,10 @@
-module github.com/fasthttp/session
+module github.com/codingbeard/session
 
 go 1.13
 
 require (
 	github.com/bradfitz/gomemcache v0.0.0-20190329173943-551aad21a668
+	github.com/fasthttp/router v0.6.0 // indirect
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/lib/pq v1.1.1

@@ -3,7 +3,7 @@ package memory
 import (
 	"testing"
 
-	"github.com/fasthttp/session"
+	"github.com/codingbeard/session"
 	"github.com/valyala/fasthttp"
 )
 

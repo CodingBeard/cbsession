@@ -4,14 +4,14 @@ import (
 	"flag"
 	"log"
 
+	"github.com/codingbeard/session"
+	"github.com/codingbeard/session/memcache"
+	"github.com/codingbeard/session/memory"
+	"github.com/codingbeard/session/mysql"
+	"github.com/codingbeard/session/postgres"
+	"github.com/codingbeard/session/redis"
+	"github.com/codingbeard/session/sqlite3"
 	"github.com/fasthttp/router"
-	"github.com/fasthttp/session"
-	"github.com/fasthttp/session/memcache"
-	"github.com/fasthttp/session/memory"
-	"github.com/fasthttp/session/mysql"
-	"github.com/fasthttp/session/postgres"
-	"github.com/fasthttp/session/redis"
-	"github.com/fasthttp/session/sqlite3"
 	"github.com/valyala/fasthttp"
 )
 
