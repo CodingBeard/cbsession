@@ -1,4 +1,4 @@
-package session
+package cbsession
 
 import (
 	"github.com/savsgio/gotils"
