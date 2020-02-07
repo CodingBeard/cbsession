@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 )
 
 // Config session postgres configuration
@@ -39,10 +39,10 @@ type Config struct {
 	SetMaxOpenConn int
 
 	// session value serialize func
-	SerializeFunc func(src session.Dict) ([]byte, error)
+	SerializeFunc func(src cbsession.Dict) ([]byte, error)
 
 	// session value unSerialize func
-	UnSerializeFunc func(dst *session.Dict, src []byte) error
+	UnSerializeFunc func(dst *cbsession.Dict, src []byte) error
 }
 
 // Provider provider struct
@@ -56,12 +56,12 @@ type Provider struct {
 
 // Store store struct
 type Store struct {
-	session.Store
+	cbsession.Store
 }
 
 // Dao database access object
 type Dao struct {
-	session.Dao
+	cbsession.Dao
 
 	tableName string
 

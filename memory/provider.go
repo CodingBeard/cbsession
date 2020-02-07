@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 )
 
 var provider = NewProvider()
@@ -13,7 +13,7 @@ var provider = NewProvider()
 func NewProvider() *Provider {
 	return &Provider{
 		config:     new(Config),
-		memoryDB:   new(session.Dict),
+		memoryDB:   new(cbsession.Dict),
 		expiration: 0,
 
 		storePool: sync.Pool{
@@ -37,7 +37,7 @@ func (mp *Provider) releaseStore(store *Store) {
 }
 
 // Init init provider configuration
-func (mp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) error {
+func (mp *Provider) Init(expiration time.Duration, cfg cbsession.ProviderConfig) error {
 	if cfg.Name() != ProviderName {
 		return errInvalidProviderConfig
 	}
@@ -49,7 +49,7 @@ func (mp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) e
 }
 
 // Get get session store by id
-func (mp *Provider) Get(sessionID []byte) (session.Storer, error) {
+func (mp *Provider) Get(sessionID []byte) (cbsession.Storer, error) {
 	currentStore := mp.memoryDB.GetBytes(sessionID)
 	if currentStore != nil {
 		return currentStore.(*Store), nil
@@ -64,10 +64,10 @@ func (mp *Provider) Get(sessionID []byte) (session.Storer, error) {
 // Put put store into the pool.
 //
 // In Memory provider, only put again the store into the pool when destroy the session
-func (mp *Provider) Put(store session.Storer) {}
+func (mp *Provider) Put(store cbsession.Storer) {}
 
 // Regenerate regenerate session
-func (mp *Provider) Regenerate(oldID, newID []byte) (session.Storer, error) {
+func (mp *Provider) Regenerate(oldID, newID []byte) (cbsession.Storer, error) {
 	var store *Store
 
 	val := mp.memoryDB.GetBytes(oldID)
@@ -124,7 +124,7 @@ func (mp *Provider) GC() {
 
 // register session provider
 func init() {
-	err := session.Register(ProviderName, provider)
+	err := cbsession.Register(ProviderName, provider)
 	if err != nil {
 		panic(err)
 	}

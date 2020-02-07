@@ -4,13 +4,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 	"github.com/savsgio/gotils"
 )
 
 var (
 	provider = NewProvider()
-	encrypt  = session.NewEncrypt()
+	encrypt  = cbsession.NewEncrypt()
 )
 
 // NewProvider new postgres provider
@@ -40,7 +40,7 @@ func (pp *Provider) releaseStore(store *Store) {
 }
 
 // Init init provider config
-func (pp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) error {
+func (pp *Provider) Init(expiration time.Duration, cfg cbsession.ProviderConfig) error {
 	if cfg.Name() != ProviderName {
 		return errInvalidProviderConfig
 	}
@@ -74,7 +74,7 @@ func (pp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) e
 }
 
 // Get read session store by session id
-func (pp *Provider) Get(sessionID []byte) (session.Storer, error) {
+func (pp *Provider) Get(sessionID []byte) (cbsession.Storer, error) {
 	store := pp.acquireStore(sessionID, pp.expiration)
 
 	row, err := pp.db.getSessionBySessionID(sessionID)
@@ -102,12 +102,12 @@ func (pp *Provider) Get(sessionID []byte) (session.Storer, error) {
 }
 
 // Put put store into the pool.
-func (pp *Provider) Put(store session.Storer) {
+func (pp *Provider) Put(store cbsession.Storer) {
 	pp.releaseStore(store.(*Store))
 }
 
 // Regenerate regenerate session
-func (pp *Provider) Regenerate(oldID, newID []byte) (session.Storer, error) {
+func (pp *Provider) Regenerate(oldID, newID []byte) (cbsession.Storer, error) {
 	store := pp.acquireStore(newID, pp.expiration)
 
 	row, err := pp.db.getSessionBySessionID(oldID)
@@ -166,7 +166,7 @@ func (pp *Provider) GC() {
 
 // register session provider
 func init() {
-	err := session.Register(ProviderName, provider)
+	err := cbsession.Register(ProviderName, provider)
 	if err != nil {
 		panic(err)
 	}

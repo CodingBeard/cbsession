@@ -3,14 +3,14 @@ package memory
 import (
 	"testing"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 	"github.com/valyala/fasthttp"
 )
 
-func getServerSession() *session.Session {
-	cfg := session.NewDefaultConfig()
+func getServerSession() *cbsession.Session {
+	cfg := cbsession.NewDefaultConfig()
 	cfg.SessionIDInHTTPHeader = true // Setted true for simulate the same client in this benchmark
-	serverSession := session.New(cfg)
+	serverSession := cbsession.New(cfg)
 	serverSession.SetProvider(ProviderName, &Config{})
 
 	return serverSession

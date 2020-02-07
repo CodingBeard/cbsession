@@ -6,14 +6,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 	"github.com/go-redis/redis"
 	"github.com/valyala/bytebufferpool"
 )
 
 var (
 	provider = NewProvider()
-	encrypt  = session.NewEncrypt()
+	encrypt  = cbsession.NewEncrypt()
 	all      = []byte("*")
 )
 
@@ -44,7 +44,7 @@ func (rp *Provider) releaseStore(store *Store) {
 }
 
 // Init init provider config
-func (rp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) error {
+func (rp *Provider) Init(expiration time.Duration, cfg cbsession.ProviderConfig) error {
 	if cfg.Name() != ProviderName {
 		return errors.New("session redis provider init error, config must redis config")
 	}
@@ -107,7 +107,7 @@ func (rp *Provider) getRedisSessionKey(sessionID []byte) string {
 }
 
 // Get read session store by session id
-func (rp *Provider) Get(sessionID []byte) (session.Storer, error) {
+func (rp *Provider) Get(sessionID []byte) (cbsession.Storer, error) {
 	store := rp.acquireStore(sessionID, rp.expiration)
 	key := rp.getRedisSessionKey(sessionID)
 
@@ -128,12 +128,12 @@ func (rp *Provider) Get(sessionID []byte) (session.Storer, error) {
 }
 
 // Put put store into the pool.
-func (rp *Provider) Put(store session.Storer) {
+func (rp *Provider) Put(store cbsession.Storer) {
 	rp.releaseStore(store.(*Store))
 }
 
 // Regenerate regenerate session
-func (rp *Provider) Regenerate(oldID, newID []byte) (session.Storer, error) {
+func (rp *Provider) Regenerate(oldID, newID []byte) (cbsession.Storer, error) {
 	oldKey := rp.getRedisSessionKey(oldID)
 	newKey := rp.getRedisSessionKey(newID)
 
@@ -182,7 +182,7 @@ func (rp *Provider) GC() {}
 
 // register session provider
 func init() {
-	err := session.Register(ProviderName, provider)
+	err := cbsession.Register(ProviderName, provider)
 	if err != nil {
 		panic(err)
 	}

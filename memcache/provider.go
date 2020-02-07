@@ -6,13 +6,13 @@ import (
 	"time"
 
 	"github.com/bradfitz/gomemcache/memcache"
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 	"github.com/valyala/bytebufferpool"
 )
 
 var (
 	provider = NewProvider()
-	encrypt  = session.NewEncrypt()
+	encrypt  = cbsession.NewEncrypt()
 	itemPool = sync.Pool{
 		New: func() interface{} {
 			return new(memcache.Item)
@@ -61,7 +61,7 @@ func (mcp *Provider) releaseStore(store *Store) {
 }
 
 // Init init provider config
-func (mcp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) error {
+func (mcp *Provider) Init(expiration time.Duration, cfg cbsession.ProviderConfig) error {
 	if cfg.Name() != ProviderName {
 		return errInvalidProviderConfig
 	}
@@ -109,7 +109,7 @@ func (mcp *Provider) getMemCacheSessionKey(sessionID []byte) string {
 }
 
 // Get read session store by session id
-func (mcp *Provider) Get(sessionID []byte) (session.Storer, error) {
+func (mcp *Provider) Get(sessionID []byte) (cbsession.Storer, error) {
 	store := mcp.acquireStore(sessionID, mcp.expiration)
 	key := mcp.getMemCacheSessionKey(sessionID)
 
@@ -131,12 +131,12 @@ func (mcp *Provider) Get(sessionID []byte) (session.Storer, error) {
 }
 
 // Put put store into the pool.
-func (mcp *Provider) Put(store session.Storer) {
+func (mcp *Provider) Put(store cbsession.Storer) {
 	mcp.releaseStore(store.(*Store))
 }
 
 // Regenerate regenerate session
-func (mcp *Provider) Regenerate(oldID, newID []byte) (session.Storer, error) {
+func (mcp *Provider) Regenerate(oldID, newID []byte) (cbsession.Storer, error) {
 	store := mcp.acquireStore(newID, mcp.expiration)
 
 	oldKey := mcp.getMemCacheSessionKey(oldID)
@@ -197,7 +197,7 @@ func (mcp *Provider) GC() {}
 
 // register session provider
 func init() {
-	err := session.Register(ProviderName, provider)
+	err := cbsession.Register(ProviderName, provider)
 	if err != nil {
 		panic(err)
 	}

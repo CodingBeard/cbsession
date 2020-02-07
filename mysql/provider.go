@@ -4,13 +4,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 	"github.com/savsgio/gotils"
 )
 
 var (
 	provider = NewProvider()
-	encrypt  = session.NewEncrypt()
+	encrypt  = cbsession.NewEncrypt()
 )
 
 // NewProvider new mysql provider
@@ -40,7 +40,7 @@ func (mp *Provider) releaseStore(store *Store) {
 }
 
 // Init init provider config
-func (mp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) error {
+func (mp *Provider) Init(expiration time.Duration, cfg cbsession.ProviderConfig) error {
 	if cfg.Name() != ProviderName {
 		return errInvalidProviderConfig
 	}
@@ -74,7 +74,7 @@ func (mp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) e
 }
 
 // Get read session store by session id
-func (mp *Provider) Get(sessionID []byte) (session.Storer, error) {
+func (mp *Provider) Get(sessionID []byte) (cbsession.Storer, error) {
 	store := mp.acquireStore(sessionID, mp.expiration)
 
 	row, err := mp.db.getSessionBySessionID(sessionID)
@@ -101,12 +101,12 @@ func (mp *Provider) Get(sessionID []byte) (session.Storer, error) {
 }
 
 // Put put store into the pool.
-func (mp *Provider) Put(store session.Storer) {
+func (mp *Provider) Put(store cbsession.Storer) {
 	mp.releaseStore(store.(*Store))
 }
 
 // Regenerate regenerate session
-func (mp *Provider) Regenerate(oldID, newID []byte) (session.Storer, error) {
+func (mp *Provider) Regenerate(oldID, newID []byte) (cbsession.Storer, error) {
 	store := mp.acquireStore(newID, mp.expiration)
 
 	row, err := mp.db.getSessionBySessionID(oldID)
@@ -165,7 +165,7 @@ func (mp *Provider) GC() {
 
 // register session provider
 func init() {
-	err := session.Register(ProviderName, provider)
+	err := cbsession.Register(ProviderName, provider)
 	if err != nil {
 		panic(err)
 	}

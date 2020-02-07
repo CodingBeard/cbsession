@@ -4,26 +4,26 @@ import (
 	"flag"
 	"log"
 
-	"github.com/codingbeard/session"
-	"github.com/codingbeard/session/memcache"
-	"github.com/codingbeard/session/memory"
-	"github.com/codingbeard/session/mysql"
-	"github.com/codingbeard/session/postgres"
-	"github.com/codingbeard/session/redis"
-	"github.com/codingbeard/session/sqlite3"
+	"github.com/codingbeard/cbsession"
+	"github.com/codingbeard/cbsession/memcache"
+	"github.com/codingbeard/cbsession/memory"
+	"github.com/codingbeard/cbsession/mysql"
+	"github.com/codingbeard/cbsession/postgres"
+	"github.com/codingbeard/cbsession/redis"
+	"github.com/codingbeard/cbsession/sqlite3"
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 )
 
 const defaultProvider = "memory"
 
-var serverSession = session.New(session.NewDefaultConfig())
+var serverSession = cbsession.New(cbsession.NewDefaultConfig())
 
 func init() {
 	providerName := flag.String("provider", defaultProvider, "Name of provider")
 	flag.Parse()
 
-	var config session.ProviderConfig
+	var config cbsession.ProviderConfig
 	switch *providerName {
 	case "memory":
 		config = &memory.Config{}

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/bradfitz/gomemcache/memcache"
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 )
 
 // Config session memcache configuration
@@ -25,10 +25,10 @@ type Config struct {
 	KeyPrefix string
 
 	// SerializeFunc session value serialize func
-	SerializeFunc func(src session.Dict) ([]byte, error)
+	SerializeFunc func(src cbsession.Dict) ([]byte, error)
 
 	// UnSerializeFunc session value unSerialize func
-	UnSerializeFunc func(dst *session.Dict, src []byte) error
+	UnSerializeFunc func(dst *cbsession.Dict, src []byte) error
 }
 
 // Provider provider struct
@@ -42,5 +42,5 @@ type Provider struct {
 
 // Store store struct
 type Store struct {
-	session.Store
+	cbsession.Store
 }

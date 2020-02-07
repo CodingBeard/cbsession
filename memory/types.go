@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 )
 
 // Config session memory configuration
@@ -13,7 +13,7 @@ type Config struct{}
 // Provider provider struct
 type Provider struct {
 	config     *Config
-	memoryDB   *session.Dict
+	memoryDB   *cbsession.Dict
 	expiration time.Duration
 
 	storePool sync.Pool
@@ -23,7 +23,7 @@ type Provider struct {
 
 // Store memory store
 type Store struct {
-	session.Store
+	cbsession.Store
 
 	lastActiveTime int64
 	lock           sync.RWMutex

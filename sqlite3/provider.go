@@ -4,13 +4,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingbeard/session"
+	"github.com/codingbeard/cbsession"
 	"github.com/savsgio/gotils"
 )
 
 var (
 	provider = NewProvider()
-	encrypt  = session.NewEncrypt()
+	encrypt  = cbsession.NewEncrypt()
 )
 
 // NewProvider new sqlite3 provider
@@ -40,7 +40,7 @@ func (sp *Provider) releaseStore(store *Store) {
 }
 
 // Init init provider config
-func (sp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) error {
+func (sp *Provider) Init(expiration time.Duration, cfg cbsession.ProviderConfig) error {
 	if cfg.Name() != ProviderName {
 		return errInvalidProviderConfig
 	}
@@ -71,7 +71,7 @@ func (sp *Provider) Init(expiration time.Duration, cfg session.ProviderConfig) e
 }
 
 // Get read session store by session id
-func (sp *Provider) Get(sessionID []byte) (session.Storer, error) {
+func (sp *Provider) Get(sessionID []byte) (cbsession.Storer, error) {
 	store := sp.acquireStore(sessionID, sp.expiration)
 
 	row, err := sp.db.getSessionBySessionID(sessionID)
@@ -99,12 +99,12 @@ func (sp *Provider) Get(sessionID []byte) (session.Storer, error) {
 }
 
 // Put put store into the pool.
-func (sp *Provider) Put(store session.Storer) {
+func (sp *Provider) Put(store cbsession.Storer) {
 	sp.releaseStore(store.(*Store))
 }
 
 // Regenerate regenerate session
-func (sp *Provider) Regenerate(oldID, newID []byte) (session.Storer, error) {
+func (sp *Provider) Regenerate(oldID, newID []byte) (cbsession.Storer, error) {
 	store := sp.acquireStore(newID, sp.expiration)
 
 	row, err := sp.db.getSessionBySessionID(oldID)
@@ -163,7 +163,7 @@ func (sp *Provider) GC() {
 
 // register session provider
 func init() {
-	err := session.Register(ProviderName, provider)
+	err := cbsession.Register(ProviderName, provider)
 	if err != nil {
 		panic(err)
 	}
