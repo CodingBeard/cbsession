@@ -1,4 +1,4 @@
-module github.com/codingbeard/session
+module github.com/codingbeard/cbsession
 
 go 1.13
 

@@ -1,5 +1,7 @@
 github.com/bradfitz/gomemcache v0.0.0-20190329173943-551aad21a668 h1:U/lr3Dgy4WK+hNk4tyD+nuGjpVLPEHuJSFXMw11/HPA=
 github.com/bradfitz/gomemcache v0.0.0-20190329173943-551aad21a668/go.mod h1:H0wQNHz2YrLsuXOZozoeDmnHXkNCRmMW0gwFWDfEZDA=
+github.com/fasthttp/router v0.6.0 h1:BfpXTP6PriE/JXltcPnwn2S76wREunAHNL0odr/KSc0=
+github.com/fasthttp/router v0.6.0/go.mod h1:Jh5tOtqbJhSwJ0D+8iddZO1HTcWrLubpjLAQQcWlVaE=
 github.com/go-redis/redis v6.15.2+incompatible h1:9SpNVG76gr6InJGxoZ6IuuxaCOQwDAhzyXg+Bs+0Sb4=
 github.com/go-redis/redis v6.15.2+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
 github.com/go-sql-driver/mysql v1.4.1 h1:g24URVg0OFbNUTx9qqY1IRZ9D9z3iPyi5zKhQZpNwpA=
